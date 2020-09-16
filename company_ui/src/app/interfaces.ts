@@ -12,7 +12,7 @@ export interface User {
     
 }
 
-export class Token {
+export interface Token {
     access: string;
     refresh: string;
 }

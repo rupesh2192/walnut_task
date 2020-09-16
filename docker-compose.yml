@@ -8,3 +8,11 @@ services:
       - ./company/:/code
     ports:
       - "8000:8000"
+  ui:
+    build: ./company_ui/
+    command: ng serve --host 0.0.0.0
+    volumes:
+      - './company_ui:/app'
+      - '/app/node_modules'
+    ports:
+      - '4201:4200'
