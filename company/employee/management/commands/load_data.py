@@ -1,8 +1,8 @@
 import json
-
+import csv
 from django.core.management import BaseCommand
 
-from movies.models import Movie, Genre, Director
+from employee.models import Employee
 import logging
 
 logger = logging.getLogger(__name__)
@@ -21,18 +21,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger.info("Starting to load data from file: options['data_file']")
 
-        Movie.objects.all().delete()
-        data = json.load(open(options["data_file"]))
-        for movie in data:
-            temp = Movie(popularity=movie["99popularity"],
-                         imdb_score=movie["imdb_score"],
-                         name=movie["name"])
-            temp.director = Director.objects.get_or_create(name=movie["director"].strip())[0]
-            temp.save()
-            genre_list = list()
-            for genre in movie["genre"]:
-                obj, created = Genre.objects.get_or_create(name=genre.strip())
-                genre_list.append(obj)
-            temp.genre.set(genre_list)
-
+        Employee.objects.filter(is_staff=False).delete()
+        data = csv.DictReader(open("us-500.csv"))
+        emp_list = []
+        for employee in data:
+            emp_list.append(Employee(first_name=employee["first_name"],
+                         last_name=employee["last_name"],
+                         email=employee["email"],
+                         is_staff=False,
+                         username=employee["email"]
+                         ))
+        Employee.objects.bulk_create(emp_list)
         logger.info("Data import completed successfully")

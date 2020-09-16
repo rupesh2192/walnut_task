@@ -13,8 +13,8 @@ export class EmployeeService {
     constructor(private http: HttpClient) {        
     }
     
-    list() {
-        return this.http.get<any>(`${config.base_url}/api/employees`)
+    list(page=1) {
+        return this.http.get<any>(`${config.base_url}/api/employees?page=${page}`)
             .pipe(map(employees => {                                                
                 return employees;
             }));

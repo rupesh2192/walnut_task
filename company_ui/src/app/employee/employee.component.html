@@ -2,6 +2,14 @@
 <h3>Employees List:</h3>
 <ul>
     <li *ngFor="let e of employees">
-        {{e.username}} ({{e.firstName}} {{e.lastName}})        
+        {{e.username}} ({{e.first_name}} {{e.last_name}})
     </li>
 </ul>
+<span>
+    <button [disabled]="!previous" class="btn btn-primary" (click)="onPrevious()">
+        Prev
+    </button>
+    <button [disabled]="!next" class="btn btn-primary float-right" (click)="onNext()">
+        Next
+    </button>
+</span>

@@ -13,12 +13,12 @@ class Command(BaseCommand):
     help = "Create one Admin and one Non-Admin User"
 
     def handle(self, *args, **options):
-        Employee.objects.all().delete()
-        admin_user, _ = Employee.objects.get_or_create(username="admin", is_active=True, is_admin=True)
+        Employee.objects.filter(is_staff=True).delete()
+        admin_user, _ = Employee.objects.get_or_create(username="admin", is_active=True, is_admin=True, is_staff=True)
         admin_user.set_password("admin")
         admin_user.save()
 
-        user, _ = Employee.objects.get_or_create(username="test", is_active=True)
+        user, _ = Employee.objects.get_or_create(username="test", is_active=True, is_staff=True)
         user.set_password("test")
         user.save()
         print("Hello")
